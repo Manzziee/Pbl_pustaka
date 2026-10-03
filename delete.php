@@ -1,14 +1,70 @@
-<?php include 'db.php';
-// delete.php — DELETE (the "D" in CRUD)
-// This page has no HTML of its own. It just deletes one student
-// and then immediately sends the user back to the list.
+<?php
 
-// Read which student to remove from the URL   (delete.php?id=5  ->  $id = 5).
-$id = $_GET['member_id'];
+session_start();
 
-// "DELETE FROM members WHERE member_id=$id" removes ONLY the row with this id.
-// WARNING: leaving out the WHERE would delete every member in the table!
-$conn->query("DELETE FROM members WHERE member_id=$id");
+include 'db.php';
 
-// header("Location: ...") redirects the browser back to the list page.
-header("Location: index.php");
+
+// Check login
+if (!isset($_SESSION['member_id'])) {
+
+    header("Location: login.php");
+
+    exit();
+}
+
+
+
+// =====================================================
+// DELETE STUDENT
+// =====================================================
+
+if (isset($_GET['member_id'])) {
+
+
+    $id =
+        $_GET['member_id'];
+
+
+    $conn->query(
+
+        "DELETE FROM members
+         WHERE member_id=$id"
+
+    );
+
+
+    header("Location: index.php");
+
+    exit();
+}
+
+
+
+// =====================================================
+// DELETE BOOK
+// =====================================================
+
+if (isset($_GET['book_id'])) {
+
+
+    $book_id =
+        $_GET['book_id'];
+
+
+    $conn->query(
+
+        "DELETE FROM books
+         WHERE book_id=$book_id"
+
+    );
+
+
+    header("Location: index.php");
+
+    exit();
+}
+
+
+
+echo "No ID was provided.";
